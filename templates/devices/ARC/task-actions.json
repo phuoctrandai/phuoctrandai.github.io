@@ -1,0 +1,65 @@
+[
+  {
+      "type": "parse-multipart"
+  },
+  {
+      "type": "conditional",
+      "condition": "[?name == `timelapse-file`] | [0] != null",
+      "actions": [
+      {
+          "type": "jmespath",
+          "expression": "{datetime: [?name==`timelapse-datetime`].data | [0], label: [?name==`timelapse-label`].data | [0], files: [?name==`timelapse-file`]}"
+      },
+      {
+          "type": "jmespath",
+          "expression": "files[*].{timelapse:$.label, datetime:$.datetime, label:$.label, filename:@.filename, type:@.type, name:@.name, data:@.data}"
+      },
+      {
+          "type": "value-mapping",
+          "path": "timelapse",
+          "mapping": {
+              "Target 1": "{{link to timelapse}}",
+              "Target 2": "{{link to timelapse}}",
+              "Target 3": "{{link to timelapse}}"
+          }
+      },
+      {
+          "type": "upsert-image"
+      }
+      ]
+  },
+  {
+      "type": "conditional",
+      "condition": "[?name == `series-data`] | [0] != null",
+      "actions": [
+      {
+          "type": "jmespath",
+          "expression": "[?name == `series-data`].data | [0]"
+      },
+      {
+          "type": "parse-json"
+      },
+      {
+          "type": "unpivot",
+          "id_keys": ["Datetime"],
+          "key_name": "series",
+          "value_name": "text"
+      },
+      {
+          "type": "value-mapping",
+          "path": "series",
+          "mapping": {
+              "BatteryVoltage": "{{link to series}}",
+              "SolarVoltage": "{{link to series}}"
+          }
+      },
+      {
+          "type": "jmespath",
+          "expression": "[].{series: series, datetime: Datetime, text: text}"
+      },
+      {
+          "type": "upsert-data"
+      }
+      ]
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+      "type": "parse-json"
+  },
+  {
+      "type": "unpivot",
+      "id_keys": ["Datetime"],
+      "key_name": "series",
+      "value_name": "text"
+  },
+  {
+      "type": "value-mapping",
+      "path": "series",
+      "mapping": {
+          "Level": "{{link to series}}",
+          "Battery": "{{link to series}}",
+          "Solar": "{{link to series}}",
+          "RSSI": "{{link to series}}",
+          "Temperature": "{{link to series}}"
+      }
+  },
+  {
+      "type": "jmespath",
+      "expression": "[].{series: series, datetime: Datetime, text: text}"
+  },
+  {
+      "type": "upsert-data"
+  }
+]
