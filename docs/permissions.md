@@ -1,3 +1,8 @@
+---
+layout: page
+permalink: /permissions
+---
+
 # Envault Permission System
 Permissions in Envault are based on [Access Control Lists (ACL's)](https://en.wikipedia.org/wiki/Access-control_list) and use [Create, Read, Update, Delete (CRUD)](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) policies to provide access to the node tree. \
 ACL's are inherited from the parent node unless explicitly defined on the node through the Role definition. This allows for granular access to resources within the node tree. 
