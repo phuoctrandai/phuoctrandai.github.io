@@ -3,7 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/css/style.css' | absolute_url }}"
+    />
   </head>
   <body>
     <div class="navigation">{% include navigation.html %}</div>
